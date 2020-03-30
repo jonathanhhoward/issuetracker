@@ -6,50 +6,35 @@
 *
 */
 
-'use strict';
+'use strict'
 
-var expect = require('chai').expect;
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectID;
+const expect = require('chai').expect
+const MongoClient = require('mongodb').MongoClient
+const ObjectId = require('mongodb').ObjectID
 
-const uri = process.env.MONGODB_URI;
-
-const client = new MongoClient(uri, {
+const client = new MongoClient(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+  useUnifiedTopology: true
+})
 
-client.connect(err => {
-  if (err) return console.error(err);
-  console.log('Connected to database.');
+const db = client.db('test')
 
-  const db = client.db('test');
-
-  client.close();
-});
-
-module.exports = function (app) {
-
+module.exports = (app) => {
   app.route('/api/issues/:project')
-
-    .get(function (req, res){
-      var project = req.params.project;
-
-    })
-
-    .post(function (req, res){
-      var project = req.params.project;
+    .get((req, res) => {
+      const project = req.params.project
 
     })
-
-    .put(function (req, res){
-      var project = req.params.project;
+    .post((req, res) => {
+      const project = req.params.project
 
     })
+    .put((req, res) => {
+      const project = req.params.project
 
-    .delete(function (req, res){
-      var project = req.params.project;
+    })
+    .delete((req, res) => {
+      const project = req.params.project
 
-    });
-
-};
+    })
+}

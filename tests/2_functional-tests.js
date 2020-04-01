@@ -61,8 +61,23 @@ suite('Functional Tests', () => {
         })
     })
 
-    test.skip('Missing required fields', (done) => {
+    test('Missing required fields', (done) => {
+      const testObj = {
+        issue_title: '',
+        issue_text: 'text',
+        created_by: 'Functional Test - Every field filled in',
+        assigned_to: '',
+        status_text: ''
+      }
 
+      chai.request(server)
+        .post('/api/issues/test')
+        .send(testObj)
+        .end((err, res) => {
+          assert.strictEqual(res.status, 400)
+          assert.strictEqual(res.body.error, 'Missing required fields')
+          done()
+        })
     })
   })
 

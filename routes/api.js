@@ -30,6 +30,11 @@ module.exports = (app, db) => {
         updated_on: '',
         open: true
       }
+
+      if (!doc.issue_title || !doc.issue_text || !doc.created_by) {
+        return res.status(400).json({ error: 'Missing required fields' })
+      }
+
       db.collection(project)
         .insertOne(doc)
         .then(result => res.json(result.ops[0]))

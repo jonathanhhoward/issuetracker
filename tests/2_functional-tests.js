@@ -34,31 +34,31 @@ suite('Functional Tests', () => {
         })
     })
 
-    test('Required fields filled in', (done) => {
+    test.skip('Required fields filled in', (done) => {
 
     })
 
-    test('Missing required fields', (done) => {
+    test.skip('Missing required fields', (done) => {
 
     })
   })
 
   suite('PUT /api/issues/{project} => text', () => {
-    test('No body', (done) => {
+    test.skip('No body', (done) => {
 
     })
 
-    test('One field to update', (done) => {
+    test.skip('One field to update', (done) => {
 
     })
 
-    test('Multiple fields to update', (done) => {
+    test.skip('Multiple fields to update', (done) => {
 
     })
   })
 
   suite('GET /api/issues/{project} => Array of objects with issue data', () => {
-    test('No filter', (done) => {
+    test.skip('No filter', (done) => {
       chai.request(server)
         .get('/api/issues/test')
         .query({})
@@ -78,21 +78,21 @@ suite('Functional Tests', () => {
         })
     })
 
-    test('One filter', (done) => {
+    test.skip('One filter', (done) => {
 
     })
 
-    test('Multiple filters (test for multiple fields you know will be in the db for a return)', (done) => {
+    test.skip('Multiple filters (test for multiple fields you know will be in the db for a return)', (done) => {
 
     })
   })
 
   suite('DELETE /api/issues/{project} => text', () => {
-    test('No _id', (done) => {
+    test.skip('No _id', (done) => {
 
     })
 
-    test('Valid _id', (done) => {
+    test.skip('Valid _id', (done) => {
 
     })
   })

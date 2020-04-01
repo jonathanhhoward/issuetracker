@@ -7,6 +7,12 @@ const bodyParser = require('body-parser')
 const expect = require('chai').expect
 const cors = require('cors')
 const helmet = require('helmet')
+const MongoClient = require('mongodb').MongoClient
+
+const client = new MongoClient(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
 
 const apiRoutes = require('./routes/api.js')
 const fccTestingRoutes = require('./routes/fcctesting.js')
@@ -14,54 +20,61 @@ const runner = require('./test-runner')
 
 const app = express()
 
-app.use(helmet())
+client.connect()
+  .then((client) => {
+    console.log('MongoClient connected.')
 
-app.use('/public', express.static(process.cwd() + '/public'))
+    const db = client.db()
 
-app.use(cors({ origin: '*' })) //For FCC testing purposes only
+    app.use(helmet())
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+    app.use('/public', express.static(process.cwd() + '/public'))
 
-//Sample front-end
-app.route('/:project/')
-  .get((req, res) => {
-    res.sendFile(process.cwd() + '/views/issue.html')
-  })
+    app.use(cors({ origin: '*' })) //For FCC testing purposes only
 
-//Index page (static HTML)
-app.route('/')
-  .get((req, res) => {
-    res.sendFile(process.cwd() + '/views/index.html')
-  })
+    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({ extended: true }))
 
-//For FCC testing purposes
-fccTestingRoutes(app)
+    //Sample front-end
+    app.route('/:project/')
+      .get((req, res) => {
+        res.sendFile(process.cwd() + '/views/issue.html')
+      })
 
-//Routing for API
-apiRoutes(app)
+    //Index page (static HTML)
+    app.route('/')
+      .get((req, res) => {
+        res.sendFile(process.cwd() + '/views/index.html')
+      })
 
-//404 Not Found Middleware
-app.use((req, res, next) => {
-  res.status(404)
-    .type('text')
-    .send('Not Found')
-})
+    //For FCC testing purposes
+    fccTestingRoutes(app)
 
-//Start our server and tests!
-const port = process.env.PORT || 3000
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`)
-  if (process.env.NODE_ENV === 'test') {
-    console.log('Running Tests...')
-    setTimeout(() => {
-      try {
-        runner.run()
-      } catch (err) {
-        console.error('Tests are not valid:\n', err)
+    //Routing for API
+    apiRoutes(app, db)
+
+    //404 Not Found Middleware
+    app.use((req, res, next) => {
+      res.status(404)
+        .type('text')
+        .send('Not Found')
+    })
+
+    //Start our server and tests!
+    const port = process.env.PORT || 3000
+    app.listen(port, () => {
+      console.log(`Listening on port ${port}`)
+      if (process.env.NODE_ENV === 'test') {
+        console.log('Running Tests...')
+        setTimeout(() => {
+          try {
+            runner.run()
+          } catch (err) {
+            console.error('Tests are not valid:\n', err)
+          }
+        }, 3500)
       }
-    }, 3500)
-  }
-})
+    })
+  }).catch(console.error)
 
 module.exports = app //for testing

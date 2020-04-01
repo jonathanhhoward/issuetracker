@@ -16,20 +16,24 @@ chai.use(chaiHttp)
 suite('Functional Tests', () => {
   suite('POST /api/issues/{project} => object with issue data', () => {
     test('Every field filled in', (done) => {
+      const testObj = {
+        issue_title: 'Title',
+        issue_text: 'text',
+        created_by: 'Functional Test - Every field filled in',
+        assigned_to: 'Chai and Mocha',
+        status_text: 'In QA'
+      }
+
       chai.request(server)
         .post('/api/issues/test')
-        .send({
-          issue_title: 'Title',
-          issue_text: 'text',
-          created_by: 'Functional Test - Every field filled in',
-          assigned_to: 'Chai and Mocha',
-          status_text: 'In QA'
-        })
+        .send(testObj)
         .end((err, res) => {
-          assert.equal(res.status, 200)
-
-          //fill me in too!
-
+          assert.strictEqual(res.status, 200)
+          assert.strictEqual(res.body.issue_title, testObj.issue_title)
+          assert.strictEqual(res.body.issue_text, testObj.issue_text)
+          assert.strictEqual(res.body.created_by, testObj.created_by)
+          assert.strictEqual(res.body.assigned_to, testObj.assigned_to)
+          assert.strictEqual(res.body.status_text, testObj.status_text)
           done()
         })
     })

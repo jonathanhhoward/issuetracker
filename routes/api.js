@@ -19,7 +19,6 @@ module.exports = (app, db) => {
     })
 
     .post((req, res) => {
-      const project = req.params.project
       const doc = {
         issue_title: req.body.issue_title,
         issue_text: req.body.issue_text,
@@ -35,15 +34,41 @@ module.exports = (app, db) => {
         return res.status(400).json({ error: 'Missing required fields' })
       }
 
-      db.collection(project)
+      db.collection(req.params.project)
         .insertOne(doc)
         .then(result => res.json(result.ops[0]))
         .catch(console.error)
     })
 
     .put((req, res) => {
-      const project = req.params.project
+      const {
+        _id,
+        issue_title,
+        issue_text,
+        created_by,
+        assigned_to,
+        status_text,
+        open
+      } = req.body
 
+      if (!_id) return res.send('_id required')
+
+      const updates = {}
+      if (issue_title) updates.issue_title = issue_title
+      if (issue_text) updates.issue_text = issue_text
+      if (created_by) updates.created_by = created_by
+      if (assigned_to) updates.assigned_to = assigned_to
+      if (status_text) updates.status_text = status_text
+      if (open === 'false') updates.open = false
+
+      if (!Object.keys(updates).length) return res.send('no updated field sent')
+
+      updates.updated_on = (new Date()).toJSON()
+
+      db.collection(req.params.project)
+        .updateOne({ _id: ObjectId(_id) }, { $set: updates })
+        .then(() => res.send('successfully updated'))
+        .catch(() => res.send(`could not update _id: ${_id}`))
     })
 
     .delete((req, res) => {

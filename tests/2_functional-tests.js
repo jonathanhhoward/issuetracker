@@ -18,7 +18,7 @@ suite('Functional Tests', () => {
 
   suite('POST /api/issues/{project} => object with issue data', () => {
     test('Every field filled in', () => {
-      const testObj = {
+      const issue = {
         issue_title: 'Title',
         issue_text: 'text',
         created_by: 'Functional Test - Every field filled in',
@@ -28,20 +28,20 @@ suite('Functional Tests', () => {
 
       chai.request(server)
         .post(method)
-        .send(testObj)
+        .send(issue)
         .then((res) => {
           assert.strictEqual(res.status, 200)
-          assert.strictEqual(res.body.issue_title, testObj.issue_title)
-          assert.strictEqual(res.body.issue_text, testObj.issue_text)
-          assert.strictEqual(res.body.created_by, testObj.created_by)
-          assert.strictEqual(res.body.assigned_to, testObj.assigned_to)
-          assert.strictEqual(res.body.status_text, testObj.status_text)
+          assert.strictEqual(res.body.issue_title, issue.issue_title)
+          assert.strictEqual(res.body.issue_text, issue.issue_text)
+          assert.strictEqual(res.body.created_by, issue.created_by)
+          assert.strictEqual(res.body.assigned_to, issue.assigned_to)
+          assert.strictEqual(res.body.status_text, issue.status_text)
         })
         .catch(console.error)
     })
 
     test('Required fields filled in', () => {
-      const testObj = {
+      const issue = {
         issue_title: 'Title',
         issue_text: 'text',
         created_by: 'Functional Test - Every field filled in',
@@ -51,20 +51,20 @@ suite('Functional Tests', () => {
 
       chai.request(server)
         .post(method)
-        .send(testObj)
+        .send(issue)
         .then((res) => {
           assert.strictEqual(res.status, 200)
-          assert.strictEqual(res.body.issue_title, testObj.issue_title)
-          assert.strictEqual(res.body.issue_text, testObj.issue_text)
-          assert.strictEqual(res.body.created_by, testObj.created_by)
-          assert.strictEqual(res.body.assigned_to, testObj.assigned_to)
-          assert.strictEqual(res.body.status_text, testObj.status_text)
+          assert.strictEqual(res.body.issue_title, issue.issue_title)
+          assert.strictEqual(res.body.issue_text, issue.issue_text)
+          assert.strictEqual(res.body.created_by, issue.created_by)
+          assert.strictEqual(res.body.assigned_to, issue.assigned_to)
+          assert.strictEqual(res.body.status_text, issue.status_text)
         })
         .catch(console.error)
     })
 
     test('Missing required fields', () => {
-      const testObj = {
+      const issue = {
         issue_title: '',
         issue_text: 'text',
         created_by: 'Functional Test - Every field filled in',
@@ -74,7 +74,7 @@ suite('Functional Tests', () => {
 
       chai.request(server)
         .post(method)
-        .send(testObj)
+        .send(issue)
         .then((res) => {
           assert.strictEqual(res.status, 200)
           assert.strictEqual(res.text, 'Missing required fields')

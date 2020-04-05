@@ -74,8 +74,8 @@ suite('Functional Tests', () => {
         .post('/api/issues/test')
         .send(testObj)
         .then((res) => {
-          assert.strictEqual(res.status, 400)
-          assert.strictEqual(res.body.error, 'Missing required fields')
+          assert.strictEqual(res.status, 200)
+          assert.strictEqual(res.text, 'Missing required fields')
         })
         .catch(console.error)
     })

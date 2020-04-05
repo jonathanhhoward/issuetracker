@@ -31,7 +31,7 @@ module.exports = (app, db) => {
       }
 
       if (!doc.issue_title || !doc.issue_text || !doc.created_by) {
-        return res.status(400).json({ error: 'Missing required fields' })
+        return res.send('Missing required fields')
       }
 
       db.collection(req.params.project)

@@ -44,7 +44,7 @@ suite('Functional Tests', () => {
       const issue = {
         issue_title: 'Title',
         issue_text: 'text',
-        created_by: 'Functional Test - Every field filled in',
+        created_by: 'Functional Test - Required fields filled in',
         assigned_to: '',
         status_text: ''
       }
@@ -67,7 +67,7 @@ suite('Functional Tests', () => {
       const issue = {
         issue_title: '',
         issue_text: 'text',
-        created_by: 'Functional Test - Every field filled in',
+        created_by: 'Functional Test - Missing required fields',
         assigned_to: '',
         status_text: ''
       }

@@ -14,6 +14,8 @@ const server = require('../server')
 chai.use(chaiHttp)
 
 suite('Functional Tests', () => {
+  const method = '/api/issues/test'
+
   suite('POST /api/issues/{project} => object with issue data', () => {
     test('Every field filled in', () => {
       const testObj = {
@@ -25,7 +27,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post('/api/issues/test')
+        .post(method)
         .send(testObj)
         .then((res) => {
           assert.strictEqual(res.status, 200)
@@ -48,7 +50,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post('/api/issues/test')
+        .post(method)
         .send(testObj)
         .then((res) => {
           assert.strictEqual(res.status, 200)
@@ -71,7 +73,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post('/api/issues/test')
+        .post(method)
         .send(testObj)
         .then((res) => {
           assert.strictEqual(res.status, 200)

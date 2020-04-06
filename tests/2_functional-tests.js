@@ -219,15 +219,17 @@ suite('Functional Tests', () => {
     })
 
     test('One filter', (done) => {
+      const query = { issue_text: 'Blob' }
+
       chai.request(server)
         .get(route)
-        .query({ issue_text: 'Blob' })
+        .query(query)
         .end((err, res) => {
           if (err) throw err
           assert.strictEqual(res.status, 200)
           assert.isArray(res.body)
           res.body.forEach((obj) => {
-            assert.strictEqual(obj.issue_text, 'Blob')
+            assert.strictEqual(obj.issue_text, query.issue_text)
           })
           done()
         })

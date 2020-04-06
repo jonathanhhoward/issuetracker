@@ -14,8 +14,11 @@ const ObjectId = require('mongodb').ObjectID
 module.exports = (app, db) => {
   app.route('/api/issues/:project')
     .get((req, res) => {
-      const project = req.params.project
-
+      db.collection(req.params.project)
+        .find()
+        .toArray()
+        .then((results) => res.json(results))
+        .catch(console.error)
     })
 
     .post((req, res) => {

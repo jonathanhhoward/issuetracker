@@ -196,7 +196,7 @@ suite('Functional Tests', function () {
     })
   })
 
-  suite('GET /api/issues/{project} => Array of objects with issue data', function ()  {
+  suite('GET /api/issues/{project} => Array of objects with issue data', function () {
     test('No filter', function (done) {
       chai.request(server)
         .get(route)
@@ -258,8 +258,16 @@ suite('Functional Tests', function () {
   })
 
   suite('DELETE /api/issues/{project} => text', function () {
-    test.skip('No _id', function (done) {
-
+    test('No _id', function (done) {
+      chai.request(server)
+        .delete(route)
+        .send({ _id: '' })
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.strictEqual(res.status, 200)
+          assert.strictEqual(res.text, '_id error')
+          done()
+        })
     })
 
     test.skip('Valid _id', function (done) {

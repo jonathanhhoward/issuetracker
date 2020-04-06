@@ -4,7 +4,6 @@ require('dotenv').config()
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const expect = require('chai').expect
 const cors = require('cors')
 const helmet = require('helmet')
 const MongoClient = require('mongodb').MongoClient
@@ -22,7 +21,7 @@ const app = express()
 
 client.connect()
   .then((client) => {
-    console.log('MongoClient connected.')
+    console.log('MongoClient connected')
 
     const db = client.db()
 

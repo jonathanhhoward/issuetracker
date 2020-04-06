@@ -13,11 +13,11 @@ const server = require('../server')
 
 chai.use(chaiHttp)
 
-suite('Functional Tests', () => {
+suite('Functional Tests', function () {
   const route = '/api/issues/test'
 
-  suite('POST /api/issues/{project} => object with issue data', () => {
-    test('Every field filled in', (done) => {
+  suite('POST /api/issues/{project} => object with issue data', function () {
+    test('Every field filled in', function (done) {
       const issue = {
         issue_title: 'Title',
         issue_text: 'Text',
@@ -29,7 +29,7 @@ suite('Functional Tests', () => {
       chai.request(server)
         .post(route)
         .send(issue)
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
           assert.strictEqual(res.status, 200)
           assert.strictEqual(res.body.issue_title, issue.issue_title)
@@ -41,7 +41,7 @@ suite('Functional Tests', () => {
         })
     })
 
-    test('Required fields filled in', (done) => {
+    test('Required fields filled in', function (done) {
       const issue = {
         issue_title: 'Title',
         issue_text: 'Text',
@@ -53,7 +53,7 @@ suite('Functional Tests', () => {
       chai.request(server)
         .post(route)
         .send(issue)
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
           assert.strictEqual(res.status, 200)
           assert.strictEqual(res.body.issue_title, issue.issue_title)
@@ -65,7 +65,7 @@ suite('Functional Tests', () => {
         })
     })
 
-    test('Missing required fields', (done) => {
+    test('Missing required fields', function (done) {
       const issue = {
         issue_title: '',
         issue_text: 'Text',
@@ -77,7 +77,7 @@ suite('Functional Tests', () => {
       chai.request(server)
         .post(route)
         .send(issue)
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
           assert.strictEqual(res.status, 200)
           assert.strictEqual(res.text, 'Missing required fields')
@@ -86,8 +86,8 @@ suite('Functional Tests', () => {
     })
   })
 
-  suite('PUT /api/issues/{project} => text', () => {
-    test('No body', (done) => {
+  suite('PUT /api/issues/{project} => text', function () {
+    test('No body', function (done) {
       const issue = {
         issue_title: 'Title',
         issue_text: 'Text',
@@ -99,7 +99,7 @@ suite('Functional Tests', () => {
       chai.request(server)
         .post(route)
         .send(issue)
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
 
           const update = {
@@ -114,7 +114,7 @@ suite('Functional Tests', () => {
           chai.request(server)
             .put(route)
             .send(update)
-            .end((err, res) => {
+            .end(function (err, res) {
               if (err) throw err
               assert.strictEqual(res.status, 200)
               assert.strictEqual(res.text, 'no updated field sent')
@@ -123,7 +123,7 @@ suite('Functional Tests', () => {
         })
     })
 
-    test('One field to update', (done) => {
+    test('One field to update', function (done) {
       const issue = {
         issue_title: 'Title',
         issue_text: 'Text',
@@ -135,7 +135,7 @@ suite('Functional Tests', () => {
       chai.request(server)
         .post(route)
         .send(issue)
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
 
           const update = {
@@ -150,7 +150,7 @@ suite('Functional Tests', () => {
           chai.request(server)
             .put(route)
             .send(update)
-            .end((err, res) => {
+            .end(function (err, res) {
               if (err) throw err
               assert.strictEqual(res.status, 200)
               assert.strictEqual(res.text, 'successfully updated')
@@ -159,7 +159,7 @@ suite('Functional Tests', () => {
         })
     })
 
-    test('Multiple fields to update', (done) => {
+    test('Multiple fields to update', function (done) {
       const issue = {
         issue_title: 'Title',
         issue_text: 'Text',
@@ -171,7 +171,7 @@ suite('Functional Tests', () => {
       chai.request(server)
         .post(route)
         .send(issue)
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
 
           const update = {
@@ -186,7 +186,7 @@ suite('Functional Tests', () => {
           chai.request(server)
             .put(route)
             .send(update)
-            .end((err, res) => {
+            .end(function (err, res) {
               if (err) throw err
               assert.strictEqual(res.status, 200)
               assert.strictEqual(res.text, 'successfully updated')
@@ -196,12 +196,12 @@ suite('Functional Tests', () => {
     })
   })
 
-  suite('GET /api/issues/{project} => Array of objects with issue data', () => {
-    test('No filter', (done) => {
+  suite('GET /api/issues/{project} => Array of objects with issue data', function ()  {
+    test('No filter', function (done) {
       chai.request(server)
         .get(route)
         .query({})
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
           assert.strictEqual(res.status, 200)
           assert.isArray(res.body)
@@ -218,13 +218,13 @@ suite('Functional Tests', () => {
         })
     })
 
-    test('One filter', (done) => {
+    test('One filter', function (done) {
       const query = { issue_text: 'Blob' }
 
       chai.request(server)
         .get(route)
         .query(query)
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
           assert.strictEqual(res.status, 200)
           assert.isArray(res.body)
@@ -235,7 +235,7 @@ suite('Functional Tests', () => {
         })
     })
 
-    test('Multiple filters (test for multiple fields you know will be in the db for a return)', (done) => {
+    test('Multiple filters (test for multiple fields you know will be in the db for a return)', function (done) {
       const query = {
         issue_text: 'Blob',
         assigned_to: 'Bob'
@@ -244,7 +244,7 @@ suite('Functional Tests', () => {
       chai.request(server)
         .get(route)
         .query(query)
-        .end((err, res) => {
+        .end(function (err, res) {
           if (err) throw err
           assert.strictEqual(res.status, 200)
           assert.isArray(res.body)
@@ -257,12 +257,12 @@ suite('Functional Tests', () => {
     })
   })
 
-  suite('DELETE /api/issues/{project} => text', () => {
-    test.skip('No _id', (done) => {
+  suite('DELETE /api/issues/{project} => text', function () {
+    test.skip('No _id', function (done) {
 
     })
 
-    test.skip('Valid _id', (done) => {
+    test.skip('Valid _id', function (done) {
 
     })
   })

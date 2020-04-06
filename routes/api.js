@@ -8,7 +8,6 @@
 
 'use strict'
 
-const expect = require('chai').expect
 const ObjectID = require('mongodb').ObjectID
 
 module.exports = (app, db) => {

@@ -199,10 +199,11 @@ suite('Functional Tests', () => {
   suite('GET /api/issues/{project} => Array of objects with issue data', () => {
     test('No filter', (done) => {
       chai.request(server)
-        .get('/api/issues/test')
+        .get(route)
         .query({})
         .end((err, res) => {
-          assert.equal(res.status, 200)
+          if (err) throw err
+          assert.strictEqual(res.status, 200)
           assert.isArray(res.body)
           assert.property(res.body[0], 'issue_title')
           assert.property(res.body[0], 'issue_text')
@@ -217,8 +218,19 @@ suite('Functional Tests', () => {
         })
     })
 
-    test.skip('One filter', (done) => {
-
+    test('One filter', (done) => {
+      chai.request(server)
+        .get(route)
+        .query({ issue_text: 'Blob' })
+        .end((err, res) => {
+          if (err) throw err
+          assert.strictEqual(res.status, 200)
+          assert.isArray(res.body)
+          res.body.forEach((obj) => {
+            assert.strictEqual(obj.issue_text, 'Blob')
+          })
+          done()
+        })
     })
 
     test.skip('Multiple filters (test for multiple fields you know will be in the db for a return)', (done) => {

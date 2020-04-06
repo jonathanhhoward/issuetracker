@@ -177,10 +177,10 @@ suite('Functional Tests', () => {
           const update = {
             _id: res.body._id,
             issue_title: '',
-            issue_text: '',
+            issue_text: 'Blob',
             created_by: '',
             assigned_to: 'Bob',
-            status_text: 'Updating'
+            status_text: ''
           }
 
           chai.request(server)

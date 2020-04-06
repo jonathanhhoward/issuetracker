@@ -15,7 +15,7 @@ module.exports = (app, db) => {
   app.route('/api/issues/:project')
     .get((req, res) => {
       db.collection(req.params.project)
-        .find()
+        .find(req.query)
         .toArray()
         .then((results) => res.json(results))
         .catch(console.error)

@@ -9,7 +9,7 @@
 'use strict'
 
 const expect = require('chai').expect
-const ObjectId = require('mongodb').ObjectID
+const ObjectID = require('mongodb').ObjectID
 
 module.exports = (app, db) => {
   app.route('/api/issues/:project')
@@ -69,13 +69,19 @@ module.exports = (app, db) => {
       updates.updated_on = (new Date()).toJSON()
 
       db.collection(req.params.project)
-        .updateOne({ _id: ObjectId(_id) }, { $set: updates })
+        .updateOne({ _id: ObjectID(_id) }, { $set: updates })
         .then(() => res.send('successfully updated'))
         .catch(() => res.send(`could not update _id: ${_id}`))
     })
 
     .delete((req, res) => {
-      const project = req.params.project
+      const _id = req.body._id
 
+      if (!_id) return res.send('_id error')
+
+      db.collection(req.params.project)
+        .findOneAndDelete({ _id: ObjectID(_id) })
+        .then(() => res.send(`deleted ${_id}`))
+        .catch(() => res.send(`could not delete ${_id}`))
     })
 }

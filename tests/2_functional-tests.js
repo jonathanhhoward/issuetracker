@@ -159,8 +159,40 @@ suite('Functional Tests', () => {
         })
     })
 
-    test.skip('Multiple fields to update', (done) => {
+    test('Multiple fields to update', (done) => {
+      const issue = {
+        issue_title: 'Title',
+        issue_text: 'Text',
+        created_by: 'Created_by',
+        assigned_to: '',
+        status_text: ''
+      }
 
+      chai.request(server)
+        .post(method)
+        .send(issue)
+        .end((err, res) => {
+          if (err) throw err
+
+          const update = {
+            _id: res.body._id,
+            issue_title: '',
+            issue_text: '',
+            created_by: '',
+            assigned_to: 'Bob',
+            status_text: 'updating'
+          }
+
+          chai.request(server)
+            .put(method)
+            .send(update)
+            .end((err, res) => {
+              if (err) throw err
+              assert.strictEqual(res.status, 200)
+              assert.strictEqual(res.text, 'successfully updated')
+              done()
+            })
+        })
     })
   })
 

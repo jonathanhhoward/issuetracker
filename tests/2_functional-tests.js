@@ -20,7 +20,7 @@ suite('Functional Tests', () => {
     test('Every field filled in', (done) => {
       const issue = {
         issue_title: 'Title',
-        issue_text: 'text',
+        issue_text: 'Text',
         created_by: 'Functional Test - Every field filled in',
         assigned_to: 'Chai and Mocha',
         status_text: 'In QA'
@@ -44,7 +44,7 @@ suite('Functional Tests', () => {
     test('Required fields filled in', (done) => {
       const issue = {
         issue_title: 'Title',
-        issue_text: 'text',
+        issue_text: 'Text',
         created_by: 'Functional Test - Required fields filled in',
         assigned_to: '',
         status_text: ''
@@ -68,7 +68,7 @@ suite('Functional Tests', () => {
     test('Missing required fields', (done) => {
       const issue = {
         issue_title: '',
-        issue_text: 'text',
+        issue_text: 'Text',
         created_by: 'Functional Test - Missing required fields',
         assigned_to: '',
         status_text: ''
@@ -91,7 +91,7 @@ suite('Functional Tests', () => {
       const issue = {
         issue_title: 'Title',
         issue_text: 'Text',
-        created_by: 'Created_by',
+        created_by: 'Functional Test - No body',
         assigned_to: '',
         status_text: ''
       }
@@ -127,7 +127,7 @@ suite('Functional Tests', () => {
       const issue = {
         issue_title: 'Title',
         issue_text: 'Text',
-        created_by: 'Created_by',
+        created_by: 'Functional Test - One field to update',
         assigned_to: '',
         status_text: ''
       }
@@ -141,7 +141,7 @@ suite('Functional Tests', () => {
           const update = {
             _id: res.body._id,
             issue_title: '',
-            issue_text: 'blob',
+            issue_text: 'Blob',
             created_by: '',
             assigned_to: '',
             status_text: ''
@@ -163,7 +163,7 @@ suite('Functional Tests', () => {
       const issue = {
         issue_title: 'Title',
         issue_text: 'Text',
-        created_by: 'Created_by',
+        created_by: 'Functional Test - Multiple fields to update',
         assigned_to: '',
         status_text: ''
       }
@@ -180,7 +180,7 @@ suite('Functional Tests', () => {
             issue_text: '',
             created_by: '',
             assigned_to: 'Bob',
-            status_text: 'updating'
+            status_text: 'Updating'
           }
 
           chai.request(server)

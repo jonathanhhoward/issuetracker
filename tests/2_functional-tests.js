@@ -270,8 +270,22 @@ suite('Functional Tests', function () {
         })
     })
 
-    test.skip('Valid _id', function (done) {
-
+    test('Valid _id', function (done) {
+      chai.request(server)
+        .get(route)
+        .query({})
+        .end(function (err, res) {
+          const _id = res.body[0]._id
+          chai.request(server)
+            .delete(route)
+            .send({ _id: _id })
+            .end(function (err, res) {
+              if (err) return done(err)
+              assert.strictEqual(res.status, 200)
+              assert.include(res.text, `deleted ${_id}`)
+              done()
+            })
+        })
     })
   })
 })

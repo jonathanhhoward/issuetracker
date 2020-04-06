@@ -84,8 +84,40 @@ suite('Functional Tests', () => {
   })
 
   suite('PUT /api/issues/{project} => text', () => {
-    test.skip('No body', (done) => {
+    test('No body', (done) => {
+      const issue = {
+        issue_title: 'Title',
+        issue_text: 'Text',
+        created_by: 'Created_by',
+        assigned_to: '',
+        status_text: ''
+      }
 
+      chai.request(server)
+        .post(method)
+        .send(issue)
+        .end((err, res) => {
+          if (err) throw err
+
+          const update = {
+            _id: res.body._id,
+            issue_title: '',
+            issue_text: '',
+            created_by: '',
+            assigned_to: '',
+            status_text: ''
+          }
+
+          chai.request(server)
+            .put(method)
+            .send(update)
+            .end((err, res) => {
+              if (err) throw err
+              assert.strictEqual(res.status, 200)
+              assert.strictEqual(res.text, 'no updated field sent')
+              done()
+            })
+        })
     })
 
     test.skip('One field to update', (done) => {

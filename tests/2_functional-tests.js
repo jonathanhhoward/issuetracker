@@ -197,7 +197,7 @@ suite('Functional Tests', () => {
   })
 
   suite('GET /api/issues/{project} => Array of objects with issue data', () => {
-    test.skip('No filter', (done) => {
+    test('No filter', (done) => {
       chai.request(server)
         .get('/api/issues/test')
         .query({})

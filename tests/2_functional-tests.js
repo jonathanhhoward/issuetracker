@@ -14,7 +14,7 @@ const server = require('../server')
 chai.use(chaiHttp)
 
 suite('Functional Tests', () => {
-  const method = '/api/issues/test'
+  const route = '/api/issues/test'
 
   suite('POST /api/issues/{project} => object with issue data', () => {
     test('Every field filled in', (done) => {
@@ -27,7 +27,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post(method)
+        .post(route)
         .send(issue)
         .end((err, res) => {
           if (err) throw err
@@ -51,7 +51,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post(method)
+        .post(route)
         .send(issue)
         .end((err, res) => {
           if (err) throw err
@@ -75,7 +75,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post(method)
+        .post(route)
         .send(issue)
         .end((err, res) => {
           if (err) throw err
@@ -97,7 +97,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post(method)
+        .post(route)
         .send(issue)
         .end((err, res) => {
           if (err) throw err
@@ -112,7 +112,7 @@ suite('Functional Tests', () => {
           }
 
           chai.request(server)
-            .put(method)
+            .put(route)
             .send(update)
             .end((err, res) => {
               if (err) throw err
@@ -133,7 +133,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post(method)
+        .post(route)
         .send(issue)
         .end((err, res) => {
           if (err) throw err
@@ -148,7 +148,7 @@ suite('Functional Tests', () => {
           }
 
           chai.request(server)
-            .put(method)
+            .put(route)
             .send(update)
             .end((err, res) => {
               if (err) throw err
@@ -169,7 +169,7 @@ suite('Functional Tests', () => {
       }
 
       chai.request(server)
-        .post(method)
+        .post(route)
         .send(issue)
         .end((err, res) => {
           if (err) throw err
@@ -184,7 +184,7 @@ suite('Functional Tests', () => {
           }
 
           chai.request(server)
-            .put(method)
+            .put(route)
             .send(update)
             .end((err, res) => {
               if (err) throw err

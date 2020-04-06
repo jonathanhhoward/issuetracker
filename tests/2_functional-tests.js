@@ -235,8 +235,25 @@ suite('Functional Tests', () => {
         })
     })
 
-    test.skip('Multiple filters (test for multiple fields you know will be in the db for a return)', (done) => {
+    test('Multiple filters (test for multiple fields you know will be in the db for a return)', (done) => {
+      const query = {
+        issue_text: 'Blob',
+        assigned_to: 'Bob'
+      }
 
+      chai.request(server)
+        .get(route)
+        .query(query)
+        .end((err, res) => {
+          if (err) throw err
+          assert.strictEqual(res.status, 200)
+          assert.isArray(res.body)
+          res.body.forEach((obj) => {
+            assert.strictEqual(obj.issue_text, query.issue_text)
+            assert.strictEqual(obj.assigned_to, query.assigned_to)
+          })
+          done()
+        })
     })
   })
 

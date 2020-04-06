@@ -30,7 +30,7 @@ suite('Functional Tests', function () {
         .post(route)
         .send(issue)
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
           assert.strictEqual(res.status, 200)
           assert.strictEqual(res.body.issue_title, issue.issue_title)
           assert.strictEqual(res.body.issue_text, issue.issue_text)
@@ -54,7 +54,7 @@ suite('Functional Tests', function () {
         .post(route)
         .send(issue)
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
           assert.strictEqual(res.status, 200)
           assert.strictEqual(res.body.issue_title, issue.issue_title)
           assert.strictEqual(res.body.issue_text, issue.issue_text)
@@ -78,7 +78,7 @@ suite('Functional Tests', function () {
         .post(route)
         .send(issue)
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
           assert.strictEqual(res.status, 200)
           assert.strictEqual(res.text, 'Missing required fields')
           done()
@@ -100,7 +100,7 @@ suite('Functional Tests', function () {
         .post(route)
         .send(issue)
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
 
           const update = {
             _id: res.body._id,
@@ -115,7 +115,7 @@ suite('Functional Tests', function () {
             .put(route)
             .send(update)
             .end(function (err, res) {
-              if (err) throw err
+              if (err) return done(err)
               assert.strictEqual(res.status, 200)
               assert.strictEqual(res.text, 'no updated field sent')
               done()
@@ -136,7 +136,7 @@ suite('Functional Tests', function () {
         .post(route)
         .send(issue)
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
 
           const update = {
             _id: res.body._id,
@@ -151,7 +151,7 @@ suite('Functional Tests', function () {
             .put(route)
             .send(update)
             .end(function (err, res) {
-              if (err) throw err
+              if (err) return done(err)
               assert.strictEqual(res.status, 200)
               assert.strictEqual(res.text, 'successfully updated')
               done()
@@ -172,7 +172,7 @@ suite('Functional Tests', function () {
         .post(route)
         .send(issue)
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
 
           const update = {
             _id: res.body._id,
@@ -187,7 +187,7 @@ suite('Functional Tests', function () {
             .put(route)
             .send(update)
             .end(function (err, res) {
-              if (err) throw err
+              if (err) return done(err)
               assert.strictEqual(res.status, 200)
               assert.strictEqual(res.text, 'successfully updated')
               done()
@@ -202,7 +202,7 @@ suite('Functional Tests', function () {
         .get(route)
         .query({})
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
           assert.strictEqual(res.status, 200)
           assert.isArray(res.body)
           assert.property(res.body[0], 'issue_title')
@@ -225,7 +225,7 @@ suite('Functional Tests', function () {
         .get(route)
         .query(query)
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
           assert.strictEqual(res.status, 200)
           assert.isArray(res.body)
           res.body.forEach((obj) => {
@@ -245,7 +245,7 @@ suite('Functional Tests', function () {
         .get(route)
         .query(query)
         .end(function (err, res) {
-          if (err) throw err
+          if (err) return done(err)
           assert.strictEqual(res.status, 200)
           assert.isArray(res.body)
           res.body.forEach((obj) => {

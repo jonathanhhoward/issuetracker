@@ -68,9 +68,13 @@ module.exports = (app, db) => {
       updates.updated_on = (new Date()).toJSON()
 
       db.collection(req.params.project)
-        .updateOne({ _id: ObjectID(_id) }, { $set: updates })
-        .then(() => res.send('successfully updated'))
-        .catch(() => res.send(`could not update _id: ${_id}`))
+        .findOneAndUpdate({ _id: ObjectID(_id) }, { $set: updates })
+        .then((result) => {
+          result.value
+            ? res.send('successfully updated')
+            : res.send(`could not update _id: ${_id}`)
+        })
+        .catch(console.error)
     })
 
     .delete((req, res) => {
@@ -80,7 +84,11 @@ module.exports = (app, db) => {
 
       db.collection(req.params.project)
         .findOneAndDelete({ _id: ObjectID(_id) })
-        .then(() => res.send(`deleted ${_id}`))
-        .catch(() => res.send(`could not delete ${_id}`))
+        .then((result) => {
+          result.value
+            ? res.send(`deleted ${_id}`)
+            : res.send(`could not delete ${_id}`)
+        })
+        .catch(console.error)
     })
 }
